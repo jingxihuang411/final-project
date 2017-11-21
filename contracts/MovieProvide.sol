@@ -3,6 +3,7 @@ pragma solidity ^0.4.15;
 import './MovieFund.sol';
 
 contract MovieProvide {
+    //other features that needs to be implemented: time range, refund, 
     using SafeMath for uint256;
 
     address public owner;
