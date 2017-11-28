@@ -1,7 +1,9 @@
-var MovieFund = artifacts.require("./MovieFund.sol");
-var MovieProvide = artifacts.require("./MovieProvide.sol");
+var Purchase = artifacts.require("Purchase");
+var Vote = artifacts.require("Vote");
+var Video = artifacts.require("Video");
 
 module.exports = function(deployer) {
-	deployer.deploy(MovieFund);
-	deployer.deploy(MovieProvide);
+  deployer.deploy(Video);
+  deployer.deploy(Vote);
+  deployer.deploy(Purchase);
 };
