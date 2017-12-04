@@ -25,4 +25,4 @@ You will need to install MetaMask in your browser and set network to truffle dev
 1. If you try to approve a video that you haven’t purchase or already voted before, you will error message
 2. When you click on purchase to buy the video you want, if the purchase is successful, you will get the url to retrieve the video. Else, an error message will be returned
 3. After purchasing the video, you can choose to approve the video if you think it’s worth the price. 
-4. You can check the score of the video which is calculated by number of approvals/number of buyers * 100. 
+4. The backend of the project is fully implemented with more functions, eg. Add movies, score calculation, retrieve funds when video quality is above criteria. 
