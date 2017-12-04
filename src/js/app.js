@@ -104,7 +104,6 @@ App = {
          var approveResult = purchaseInstance.approveVideo.call(videoId, {from: account});
 
          Promise.resolve(approveResult).then(function(value) {
-            alert(value)
             if (value) {
                 alert("Approval Success.")
             } else {
