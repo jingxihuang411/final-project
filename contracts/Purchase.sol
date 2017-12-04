@@ -47,8 +47,8 @@ contract Purchase {
         if (numBuyers[videoId] == 0) {
             return 0;
         }
-//        return 100 * allVotes.checkVotes(videoId) / numBuyers[videoId];
-        return allVotes.checkVotes(videoId);
+        return 100 * allVotes.checkVotes(videoId) / numBuyers[videoId];
+//        return allVotes.checkVotes(videoId);
     }
 
     function getPrice(uint videoId) constant public returns(uint256) {
