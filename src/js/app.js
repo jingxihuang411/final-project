@@ -13,6 +13,8 @@ App = {
         template.find('.video-name').text(data[i].name);
         template.find('.video-price').text(data[i].price);
         template.find('.btn-purchase').attr('data-id', data[i].id);
+        template.find('.btn-approve').attr('data-id', data[i].id);
+        template.find('.btn-checkScore').attr('data-id', data[i].id);
 
         row.append(template.html());
       }
@@ -43,7 +45,7 @@ App = {
     App.contracts.Purchase.setProvider(App.web3Provider);
 
     // Use our contract to retrieve and mark the purchase
-    return App.markVideo();
+//    return App.markVideo();
   });
 
     return App.bindEvents();
@@ -51,31 +53,77 @@ App = {
 
   bindEvents: function() {
     $(document).on('click', '.btn-purchase', App.buyVideo);
+    $(document).on('click', '.btn-approve', App.approveVideo);
+    $(document).on('click', '.btn-checkScore', App.checkScore);
   },
 
-  markVideo: function(buyers, account) {
+  checkScore: function(event) {
+    event.preventDefault();
+    var videoId = parseInt($(event.target).data('id'));
+    alert("id:"+videoId);
+
     var purchaseInstance;
 
-    App.contracts.Purchase.deployed().then(function(instance) {
-      purchaseInstance = instance;
+    web3.eth.getAccounts(function(error, accounts) {
+    if (error) {
+     console.log(error);
+    }
 
-      return purchaseInstance.getBuyers.call();
-    }).then(function(buyers) {
-      for (i = 0; i < buyers.length; i++) {
-        if (buyers[i] !== '0x0000000000000000000000000000000000000000') {
-          $('.panel-video').eq(i).find('button').text('Success').attr('disabled', true);
-        }
-      }
+    var account = accounts[0];
+
+    App.contracts.Purchase.deployed().then(function(instance) {
+     purchaseInstance = instance;
+
+     return purchaseInstance.checkScore.call(videoId);
+    }).then(function(result) {
+        alert("Score:" + result);
     }).catch(function(err) {
-      console.log(err.message);
+     console.log(err.message);
+    });
     });
   },
+
+
+
+  approveVideo: function(event) {
+
+     event.preventDefault();
+     var videoId = parseInt($(event.target).data('id'));
+
+     var purchaseInstance;
+
+     web3.eth.getAccounts(function(error, accounts) {
+       if (error) {
+         console.log(error);
+       }
+
+       var account = accounts[0];
+
+       App.contracts.Purchase.deployed().then(function(instance) {
+         purchaseInstance = instance;
+         var approveResult = purchaseInstance.approveVideo.call(videoId, {from: account});
+
+         Promise.resolve(approveResult).then(function(value) {
+            alert(value)
+            if (value) {
+                alert("Approval Success.")
+            } else {
+                alert("Approval Fail. (Video not own or duplicate approval)")
+            }
+         }, function(value) {
+            alert("Fail to approve.")
+         });
+       }).catch(function(err) {
+         console.log(err.message);
+       });
+     });
+  },
+
 
   buyVideo: function(event) {
     event.preventDefault();
 
     var videoId = parseInt($(event.target).data('id'));
-
     var purchaseInstance;
 
     web3.eth.getAccounts(function(error, accounts) {
@@ -87,11 +135,24 @@ App = {
 
       App.contracts.Purchase.deployed().then(function(instance) {
         purchaseInstance = instance;
+        var p;
+        var price = purchaseInstance.getPrice.call(videoId);
+        Promise.resolve(price).then(function(value) {
+          p = value; // "Success"
+        }, function(value) {
+        // not called
+        });
 
         // Execute adopt as a transaction by sending account
         return purchaseInstance.buy(videoId, {from: account});
       }).then(function(result) {
-        return App.markVideo();
+          var a = purchaseInstance.buy.call(videoId, {from: account});
+          Promise.resolve(a).then(function(value) {
+            alert("Purchase successful. See video at: " + value); // "Success"
+          }, function(value) {
+            // not called
+            alert("Fail to purchase.")
+          });
       }).catch(function(err) {
         console.log(err.message);
       });

@@ -34,7 +34,7 @@ contract('TestContract', function(accounts) {
         });
         it('should not be able to vote without buying', async function() {
             purchase.approveVideo(1,{from: args._buyer2});
-            assert.equal(await vote.checkVotes(1), 0)
+            assert.equal(await vote.checkVotes(1), 0);
         });
         it('should avoid duplicate votes', async function() {
             purchase.buy(0,{from: args._buyer2});
@@ -47,20 +47,18 @@ contract('TestContract', function(accounts) {
 
     describe('TestVideo', function() {
         it('should be able to initialize with 2 videos', async function() {
-
             assert.equal(await video.getNumVideo(), 2);
         });
 
     });
 
     describe('TestPurchase', function() {
+        it('should be able to check score of video', async function() {
+            assert.equal(await purchase.checkScore(0), 0);
+        });
         it("should be able to purchase free video", async function() {
             purchase.buy(0,{from: args._buyer1});
             assert.equal(await purchase.hasPurchased(0, args._buyer1), true);
-        });
-        it("should not be able to purchase video when pay less than price", async function() {
-            purchase.buy(1,{from: args._buyer1});
-            assert.equal(await purchase.hasPurchased(1, args._buyer1), false);
         });
         it("should be able to purchase video when pay more than price", async function() {
             purchase.buy(1,{from: args._buyer1, value: 1});
@@ -73,11 +71,10 @@ contract('TestContract', function(accounts) {
             assert.equal(await purchase.checkScore(0), 50);
         });
         it("should be able to add video", async function() {
-            purchase.addVideo(0,"Batman");
+            purchase.addVideo(0,"Batman", "https://batman.com");
             assert.equal(await video.getPrice(2), 0);
             assert.equal(await video.getName(2), "Batman");
             assert.equal(await video.getNumVideo(), 3);
-
         });
     });
 

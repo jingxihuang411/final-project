@@ -9,9 +9,6 @@ contract Video {
 
     function Video() public {
         numVideo = 0;
-        //initialize the contract with 2 default videos
-        addVideo(0, "Transformer");
-        addVideo(1, "Despicable_Me");
     }
 
     function addVideo(uint _price, string _name) public returns(uint256) {
@@ -36,7 +33,7 @@ contract Video {
         return numVideo;
     }
 
-    function isOwner(address _owner, uint videoId) returns(bool) {
+    function isOwner(address _owner, uint videoId) public returns(bool) {
         return owner[videoId] == _owner;
     }
 

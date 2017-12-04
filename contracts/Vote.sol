@@ -2,7 +2,7 @@ pragma solidity ^0.4.4;
 
 contract Vote {
 
-    uint256[16] public numVotes;
+    uint256[1000] public numVotes;
     mapping (uint256 => mapping(address => uint256)) public voters;
     address public owner;
 
@@ -14,11 +14,11 @@ contract Vote {
     function vote(uint videoId, address voter) public returns(bool){
 
         //avoid duplicate votes
-        if (videoId < 0 || videoId > numVotes.length || voters[videoId][msg.sender] == 1){
+        if (videoId < 0 || videoId > numVotes.length || voters[videoId][voter] == 1) {
             return false;
         }
         numVotes[videoId] += 1;
-        voters[videoId][msg.sender] = 1;
+        voters[videoId][voter] = 1;
 
         voteApprove(voter);
         return true;

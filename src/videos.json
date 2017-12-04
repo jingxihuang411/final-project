@@ -3,14 +3,14 @@
     "id": 0,
     "name": "Despicable Me",
     "picture": "images/Despicable Me.jpeg",
-    "price": 3,
-    "location": "Lisco, Alabama"
+    "price": 0,
+    "location": ""
   },
   {
     "id": 1,
     "name": "Wonder Woman",
     "picture": "images/Wonder Woman.jpg",
-    "price": 3,
-    "location": "Tooleville, West Virginia"
+    "price": 0,
+    "location": ""
   }
 ]
