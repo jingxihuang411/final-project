@@ -19,3 +19,10 @@ Video Hunter is a decentralized platform for people to crowdsource videos. With 
 
 ## Usage
 This Dapp will utilize truffle-box(https://truffle-box.github.io/) and use React as Javascript front-end framework for user interaction. The basic idea behind the dapp is that video providers can upload their own videos to the contract with name, basic information and specified minimum purchase price in etherum for each video. On the other hand, video hunters can use the app to access video they would like to watch by paying more than the minimum amount specified by the provider. After watching the video, video hunters can vote whether they think the video is worth the money they paid. Once the video has score and number of buyers greater than threshold, video providers can retrieve the rewards they've gained from the video.
+
+## User Interaction
+You will need to install MetaMask in your browser and set network to truffle develop(http://localhost:9545) when testing. 
+1. If you try to approve a video that you haven’t purchase or already voted before, you will error message
+2. When you click on purchase to buy the video you want, if the purchase is successful, you will get the url to retrieve the video. Else, an error message will be returned
+3. After purchasing the video, you can choose to approve the video if you think it’s worth the price. 
+4. You can check the score of the video which is calculated by number of approvals/number of buyers * 100. 
